@@ -1,0 +1,27 @@
+machine:
+  environment:
+    RPXC_IMAGE: sdthirlwall/raspberry-pi-cross-compiler
+    RPXC_SCRIPT: "/home/ubuntu/bin/rpxc"
+    RPXC_DISTRO: stretch
+
+  services:
+    - docker
+
+dependencies:
+  override:
+    - ./build.sh
+    - docker run --rm $RPXC_IMAGE > $RPXC_SCRIPT
+    - chmod +x $RPXC_SCRIPT
+
+test:
+  override:
+    - ./example/run-example.sh ./example/axel
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - docker push $RPXC_IMAGE
+      - docker tag $RPXC_IMAGE $RPXC_IMAGE:$RPXC_DISTRO
+      - docker push $RPXC_IMAGE:$RPXC_DISTRO
