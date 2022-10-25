@@ -29,6 +29,7 @@ RUN apt-get update \
     sudo \
     xz-utils \
     dos2unix \
+    micro \
     rsync \
   && apt-get autoclean \
   && rm -rf /var/lib/apt/lists/*
@@ -49,8 +50,10 @@ COPY USERNAME_v2.json /root/.config/gdrive/
 RUN cd /work \
   # download toolchain
   && ./gdrive about \
-  && ./gdrive download "$toolchain" \
-  && unzip -q *.zip && rm *.zip \
+  && ./gdrive info "$toolchain" \
+  && mkdir toolchain-download \
+  && ./gdrive download --path toolchain-download "$toolchain" \
+  && unzip -q toolchain-download/*.zip && rm -rf toolchain-download \
   # download qemu
   && curl -Ls https://github.com/balena-io/qemu/releases/download/v5.2.0%2Bbalena4/qemu-5.2.0.balena4-aarch64.tar.gz | tar --strip-components 1 -C $SYSROOT/usr/bin/ -xzf - \
   && chmod +x $SYSROOT/$QEMU \
