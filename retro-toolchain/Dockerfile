@@ -39,10 +39,14 @@ ENV DEVKITARM=${DEVKITPRO}/devkitARM
 ENV PATH=${DEVKITPRO}/tools/bin:${PATH}
 ENV CTRULIB=${DEVKITPRO}/libctru
 
-RUN wget https://github.com/devkitPro/pacman/releases/latest/download/devkitpro-pacman.amd64.deb && \
-    gdebi -n devkitpro-pacman.amd64.deb && \
-    rm devkitpro-pacman.amd64.deb && \
-    dkp-pacman -Scc --noconfirm
+# RUN wget https://github.com/devkitPro/pacman/releases/latest/download/devkitpro-pacman.amd64.deb && \
+#     gdebi -n devkitpro-pacman.amd64.deb && \
+#     rm devkitpro-pacman.amd64.deb && \
+#     dkp-pacman -Scc --noconfirm
+
+RUN wget https://apt.devkitpro.org/install-devkitpro-pacman && \
+    chmod +x ./install-devkitpro-pacman && \
+    ./install-devkitpro-pacman
 
 RUN dkp-pacman -Syyu --noconfirm 3ds-dev nds-dev gp32-dev gba-dev gp2x-dev && \
     dkp-pacman -S --needed --noconfirm 3ds-portlibs nds-portlibs armv4t-portlibs && \
