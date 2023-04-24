@@ -6,7 +6,7 @@ version=2022-10-20
 arch=$(uname -p)
 if [ $arch == "i386" ] || [ $arch == "x86_64" ]; then
     toolchain=1lwb-EHXE2WG5UpydcJsakwS5EBma5Klp
-elif [ $arch == "i386" ] || [ $arch == "x86_64" ]; then
+elif [ $arch == "arm" ] || [ $arch == "aarch64" ]; then
     toolchain=14u9k24KfCyzmn53kgbx7fExTEBHOUeaq
 else
     echo "*** Not supportd: $arch"
