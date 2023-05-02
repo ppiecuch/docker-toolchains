@@ -1,4 +1,4 @@
-FROM amd64/ubuntu:20.04
+FROM ubuntu:20.04
 
 MAINTAINER Pawel Piecuch <piecuch.pawel@gmail.com>
 
@@ -60,7 +60,7 @@ RUN cd /work \
   && rsync -arDH /dev/ $SYSROOT/dev && ls $SYSROOT/dev \
   # build pkg-config
   && echo "#!/bin/bash" > $PKG_CONFIG_BIN \
-  && echo "PKG_CONFIG_DIR= PKG_CONFIG_PATH= PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib/pkgconfig $ELECROOT/bin/pkg-config \"\$@\"" >> $PKG_CONFIG_BIN \
+  && echo "PKG_CONFIG_SYSROOT_DIR="$SYSROOT" PKG_CONFIG_DIR= PKG_CONFIG_PATH= PKG_CONFIG_LIBDIR=$SYSROOT/usr/lib/pkgconfig $ELECROOT/bin/pkg-config \"\$@\"" >> $PKG_CONFIG_BIN \
   && chmod +x $PKG_CONFIG_BIN
 
 
